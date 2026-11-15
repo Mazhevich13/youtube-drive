@@ -4,303 +4,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#08090c">
-<title>YouTube Drive | BMW iDrive</title>
+<meta name="theme-color" content="#090a0e">
+<title>YouTube Drive</title>
 
 <style>
 :root {
-  --bg:#08090c;
-  --panel:#14161c;
-  --panel2:#1c1f27;
+  --bg:#090a0e;
+  --panel:#15171e;
+  --panel2:#20232c;
   --red:#e51b35;
   --text:#f5f5f7;
   --muted:#9296a2;
-  --border:#292c35;
+  --border:#2b2e38;
 }
-
-* { box-sizing:border-box; }
-
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  min-height:100vh;
+  min-height:100vh;padding-bottom:85px
 }
-
-button,input { font:inherit; }
-
-button { cursor:pointer; }
-
-.app {
-  width:100%;
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:1100px;margin:auto;padding:18px}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0 20px;border-bottom:1px solid var(--border)
 }
-
-.topbar {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 0 24px;
-  border-bottom:1px solid var(--border);
+.logo{font-size:23px;font-weight:850;letter-spacing:1px}
+.logo span{color:var(--red)}
+.system{font-size:10px;color:var(--muted);letter-spacing:1.5px}
+.page{display:none}
+.page.active{display:block}
+.hero{padding:27px 0 18px}
+.eyebrow{font-size:10px;color:var(--red);font-weight:800;letter-spacing:2px;margin-bottom:10px}
+h1{font-size:29px;margin:0 0 9px}
+.subtitle{font-size:13px;color:var(--muted)}
+.section-title{font-size:17px;font-weight:750;margin:25px 0 14px}
+.searchbox{display:flex;gap:9px;margin:20px 0 12px}
+input{
+  min-width:0;flex:1;background:var(--panel);color:white;
+  border:1px solid var(--border);border-radius:12px;padding:15px;outline:none
 }
-
-.logo {
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:1px;
+input:focus{border-color:var(--red)}
+.primary{
+  border:0;background:var(--red);color:white;
+  font-weight:750;border-radius:12px;padding:0 18px
 }
-
-.logo span { color:var(--red); }
-
-.system {
-  font-size:11px;
-  color:var(--muted);
-  letter-spacing:1.5px;
+.status{font-size:13px;color:var(--muted);margin:15px 0;min-height:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden
 }
-
-.hero {
-  padding:30px 0 24px;
+.thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#222}
+.info{padding:12px}
+.video-title{font-size:13px;line-height:1.4;font-weight:700;margin:0 0 8px}
+.channel{font-size:11px;color:var(--muted);margin-bottom:12px}
+.actions{display:flex;gap:8px}
+.actions button{
+  flex:1;padding:10px 6px;border-radius:9px;
+  border:1px solid var(--border);background:var(--panel2);
+  color:white;font-size:12px;font-weight:700
 }
-
-.eyebrow {
-  color:var(--red);
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:2px;
-  margin-bottom:12px;
+.actions .heart{flex:0 0 42px;font-size:17px}
+.heart.saved{color:var(--red);border-color:var(--red)}
+.empty{
+  padding:25px 16px;background:var(--panel);border:1px solid var(--border);
+  border-radius:13px;color:var(--muted);font-size:13px;text-align:center
 }
-
-h1 {
-  font-size:30px;
-  line-height:1.15;
-  margin:0 0 10px;
+.list-item{
+  display:flex;align-items:center;gap:12px;padding:11px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;margin-bottom:10px
 }
-
-.subtitle {
-  color:var(--muted);
-  font-size:14px;
+.list-item img{width:105px;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
+.list-info{flex:1;min-width:0}
+.list-info strong{font-size:12px;line-height:1.4;display:block}
+.list-info small{font-size:11px;color:var(--muted);display:block;margin-top:6px}
+.small-button{
+  background:var(--panel2);color:white;border:1px solid var(--border);
+  padding:9px;border-radius:9px;font-size:12px
 }
-
-.searchbox {
-  display:flex;
-  gap:10px;
-  margin:25px 0 15px;
+.setting{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:13px;padding:16px;margin:12px 0
 }
-
-.searchbox input {
-  min-width:0;
-  flex:1;
-  background:var(--panel);
-  color:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  outline:none;
+.setting strong{display:block;font-size:14px;margin-bottom:6px}
+.setting p{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 12px}
+.danger{background:#35151c;color:#ff8291;border:1px solid #612330}
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:20;
+  background:rgba(15,16,21,.97);border-top:1px solid var(--border);
+  display:flex;justify-content:center;padding:9px 3px max(9px,env(safe-area-inset-bottom));
+  backdrop-filter:blur(15px)
 }
-
-.searchbox input:focus {
-  border-color:var(--red);
+.nav-inner{width:100%;max-width:700px;display:flex;justify-content:space-around}
+.nav-btn{
+  border:0;background:none;color:var(--muted);font-size:10px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  min-width:55px;padding:4px
 }
-
-.searchbox button,.main-button {
-  border:0;
-  background:var(--red);
-  color:white;
-  font-weight:750;
-  border-radius:12px;
-  padding:0 20px;
+.nav-btn .symbol{font-size:20px}
+.nav-btn.active{color:var(--red)}
+#playerScreen{display:none}
+.player-header{display:flex;align-items:center;gap:12px;margin:22px 0}
+.back{
+  background:var(--panel2);color:white;border:1px solid var(--border);
+  border-radius:10px;padding:11px 15px
 }
-
-.searchbox button:active,.main-button:active {
-  transform:scale(.97);
+.player-frame{
+  width:100%;aspect-ratio:16/9;background:#000;border-radius:13px;overflow:hidden
 }
-
-.status {
-  color:var(--muted);
-  font-size:13px;
-  margin:18px 0;
-  min-height:18px;
+.player-frame iframe{width:100%;height:100%;border:0;display:block}
+.player-title{font-size:19px;font-weight:750;line-height:1.4;margin:16px 0 7px}
+.player-channel{color:var(--muted);font-size:13px}
+.note{
+  margin-top:18px;padding:13px;background:var(--panel);
+  border:1px solid var(--border);border-radius:11px;
+  color:var(--muted);font-size:12px;line-height:1.5
 }
-
-.section-title {
-  font-size:17px;
-  font-weight:750;
-  margin:28px 0 15px;
+.footer{text-align:center;color:#656975;font-size:10px;margin:35px 0 15px}
+@media(max-width:600px){
+  .app{padding:15px}
+  h1{font-size:27px}
+  .grid{grid-template-columns:1fr}
+  .card{display:grid;grid-template-columns:125px 1fr;align-items:center}
+  .thumb{height:100%;min-height:110px;aspect-ratio:auto}
+  .info{padding:10px}
+  .video-title{font-size:12px}
+  .actions button{padding:9px 4px}
 }
-
-.results {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:16px;
-}
-
-.video-card {
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:15px;
-  overflow:hidden;
-  transition:.2s;
-}
-
-.video-card:active {
-  transform:scale(.98);
-}
-
-.thumbnail {
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  display:block;
-  background:#222;
-}
-
-.video-info {
-  padding:13px;
-}
-
-.video-title {
-  font-size:14px;
-  line-height:1.4;
-  font-weight:700;
-  margin:0 0 8px;
-}
-
-.video-channel {
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:13px;
-}
-
-.play-button {
-  width:100%;
-  background:var(--panel2);
-  color:white;
-  border:1px solid var(--border);
-  padding:12px;
-  border-radius:9px;
-  font-weight:700;
-}
-
-.play-button:hover {
-  border-color:var(--red);
-}
-
-#playerScreen {
-  display:none;
-}
-
-.player-header {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:25px 0 18px;
-}
-
-.back-button {
-  background:var(--panel);
-  border:1px solid var(--border);
-  color:white;
-  padding:12px 16px;
-  border-radius:10px;
-}
-
-.player-label {
-  color:var(--red);
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:1.5px;
-}
-
-.player-title {
-  font-size:20px;
-  font-weight:750;
-  margin:18px 0 8px;
-  line-height:1.35;
-}
-
-.player-channel {
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:20px;
-}
-
-.player-frame {
-  width:100%;
-  background:black;
-  border-radius:14px;
-  overflow:hidden;
-  aspect-ratio:16/9;
-  position:relative;
-}
-
-.player-frame iframe {
-  width:100%;
-  height:100%;
-  border:0;
-  display:block;
-}
-
-.player-note {
-  background:var(--panel);
-  border:1px solid var(--border);
-  padding:14px;
-  border-radius:12px;
-  margin-top:18px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5;
-}
-
-.footer {
-  border-top:1px solid var(--border);
-  margin-top:45px;
-  padding:20px 0;
-  color:#656975;
-  font-size:11px;
-  text-align:center;
-}
-
-.hidden { display:none!important; }
-
-@media(max-width:600px) {
-  .app { padding:16px; }
-  .hero { padding-top:27px; }
-  h1 { font-size:27px; }
-  .searchbox { gap:8px; }
-  .searchbox input { padding:14px 11px; }
-  .searchbox button { padding:0 14px; }
-  .results { grid-template-columns:1fr; }
-  .video-card {
-    display:grid;
-    grid-template-columns:125px 1fr;
-    align-items:center;
-  }
-  .thumbnail {
-    height:100%;
-    min-height:110px;
-    aspect-ratio:auto;
-  }
-  .video-info { padding:10px; }
-  .video-title { font-size:12px; }
-  .video-channel { font-size:11px; }
-  .play-button { padding:9px; font-size:12px; }
-}
-
-@media(orientation:landscape) and (max-height:550px) {
-  .app { max-width:1200px; }
-  .topbar { padding:5px 0 12px; }
-  .hero { padding:12px 0; }
-  h1 { font-size:23px; }
-  .player-frame { max-height:75vh; }
+@media(orientation:landscape) and (max-height:550px){
+  .app{max-width:1200px}
+  .player-frame{max-height:75vh}
+  .bottom-nav{padding-top:5px}
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <header class="topbar">
@@ -308,209 +150,511 @@ h1 {
   <div class="system">BMW iDRIVE STYLE</div>
 </header>
 
-<main id="homeScreen">
-
-  <section class="hero">
+<!-- HOME -->
+<section class="page active" id="homePage">
+  <div class="hero">
     <div class="eyebrow">ENTERTAINMENT SYSTEM</div>
     <h1>YouTube Drive</h1>
-    <div class="subtitle">Твой персональный видеоплеер</div>
-  </section>
-
-  <div class="searchbox">
-    <input
-      id="search"
-      type="search"
-      placeholder="Что будем смотреть?"
-      autocomplete="off"
-    >
-    <button onclick="findVideos()">Найти</button>
+    <div class="subtitle">Твоя персональная медиасистема</div>
   </div>
 
-  <div class="status" id="status">
-    Введи название видео для поиска
+  <div class="section-title">Быстрый доступ</div>
+  <div class="grid">
+    <div class="card info">
+      <div class="video-title">⌕ Поиск видео</div>
+      <div class="channel">Найди что-нибудь интересное</div>
+      <button class="primary" style="padding:11px" onclick="showPage('search')">Искать видео</button>
+    </div>
+    <div class="card info">
+      <div class="video-title">♥ Избранное</div>
+      <div class="channel" id="homeFavCount">Сохранённые видео</div>
+      <button class="primary" style="padding:11px" onclick="showPage('favorites')">Открыть</button>
+    </div>
   </div>
 
-  <div class="section-title">Результаты поиска</div>
-  <div class="results" id="results"></div>
-
-</main>
-
-<section id="playerScreen">
-
-  <div class="player-header">
-    <button class="back-button" onclick="closePlayer()">
-      ← Назад
-    </button>
-    <div class="player-label">NOW PLAYING</div>
-  </div>
-
-  <div class="player-frame" id="playerFrame"></div>
-
-  <div class="player-title" id="playerTitle"></div>
-  <div class="player-channel" id="playerChannel"></div>
-
-  <div class="player-note">
-    Воспроизведение доступно только во время стоянки.
-    Для полноэкранного режима используй кнопку
-    полноэкранного просмотра в самом плеере YouTube.
-  </div>
-
+  <div class="section-title">Недавно просмотренные</div>
+  <div id="homeHistory"></div>
 </section>
 
-<footer class="footer">
-  YOUTUBE DRIVE · PERSONAL MEDIA SYSTEM
-</footer>
+<!-- SEARCH -->
+<section class="page" id="searchPage">
+  <div class="hero">
+    <div class="eyebrow">YOUTUBE SEARCH</div>
+    <h1>Поиск</h1>
+    <div class="subtitle">Найди видео или канал</div>
+  </div>
 
+  <div class="searchbox">
+    <input id="searchInput" type="search" placeholder="Название видео или канала">
+    <button class="primary" onclick="searchVideos()">Найти</button>
+  </div>
+
+  <div class="status" id="searchStatus">Введи запрос для поиска</div>
+  <div id="searchSuggestions"></div>
+  <div class="grid" id="searchResults"></div>
+</section>
+
+<!-- FAVORITES -->
+<section class="page" id="favoritesPage">
+  <div class="hero">
+    <div class="eyebrow">YOUR COLLECTION</div>
+    <h1>Избранное</h1>
+    <div class="subtitle">Видео, которые ты сохранил</div>
+  </div>
+  <div class="grid" id="favoritesList"></div>
+</section>
+
+<!-- HISTORY -->
+<section class="page" id="historyPage">
+  <div class="hero">
+    <div class="eyebrow">RECENT ACTIVITY</div>
+    <h1>История</h1>
+    <div class="subtitle">Недавно просмотренные видео и запросы</div>
+  </div>
+  <div class="section-title">Просмотренные видео</div>
+  <div id="historyList"></div>
+  <div class="section-title">Поисковые запросы</div>
+  <div id="queryHistory"></div>
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="settingsPage">
+  <div class="hero">
+    <div class="eyebrow">SYSTEM</div>
+    <h1>Настройки</h1>
+    <div class="subtitle">Управление приложением</div>
+  </div>
+
+  <div class="setting">
+    <strong>Хранилище приложения</strong>
+    <p>Избранное, история просмотров и поисковые запросы хранятся на этом устройстве.</p>
+    <div id="storageInfo"></div>
+  </div>
+
+  <div class="setting">
+    <strong>Очистить историю просмотров</strong>
+    <p>Удалить список просмотренных видео.</p>
+    <button class="small-button danger" onclick="clearHistory()">Очистить историю</button>
+  </div>
+
+  <div class="setting">
+    <strong>Очистить историю поиска</strong>
+    <p>Удалить сохранённые поисковые запросы.</p>
+    <button class="small-button danger" onclick="clearQueries()">Очистить запросы</button>
+  </div>
+
+  <div class="setting">
+    <strong>Удалить всё избранное</strong>
+    <p>Удалить все сохранённые видео.</p>
+    <button class="small-button danger" onclick="clearFavorites()">Очистить избранное</button>
+  </div>
+
+  <div class="setting">
+    <strong>О приложении</strong>
+    <p>YouTube Drive · Personal Media System<br>Версия 2.0</p>
+  </div>
+</section>
+
+<!-- PLAYER -->
+<section id="playerScreen">
+  <div class="player-header">
+    <button class="back" onclick="closePlayer()">← Назад</button>
+    <div class="eyebrow">NOW PLAYING</div>
+  </div>
+  <div class="player-frame" id="playerFrame"></div>
+  <div class="player-title" id="playerTitle"></div>
+  <div class="player-channel" id="playerChannel"></div>
+  <div class="note">
+    Видеовоспроизведение предназначено только для стоянки.
+    Для полноэкранного режима используй кнопку YouTube в плеере.
+  </div>
+</section>
+
+<div class="footer">YOUTUBE DRIVE · BMW iDRIVE STYLE</div>
 </div>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="nav-inner">
+    <button class="nav-btn active" data-page="home" onclick="showPage('home')">
+      <span class="symbol">⌂</span>Главная
+    </button>
+    <button class="nav-btn" data-page="search" onclick="showPage('search')">
+      <span class="symbol">⌕</span>Поиск
+    </button>
+    <button class="nav-btn" data-page="favorites" onclick="showPage('favorites')">
+      <span class="symbol">♡</span>Избранное
+    </button>
+    <button class="nav-btn" data-page="history" onclick="showPage('history')">
+      <span class="symbol">◷</span>История
+    </button>
+    <button class="nav-btn" data-page="settings" onclick="showPage('settings')">
+      <span class="symbol">⚙</span>Настройки
+    </button>
+  </div>
+</nav>
 
 <script>
 
-// ВСТАВЬ СВОЙ ПРЕЖНИЙ API-КЛЮЧ МЕЖДУ КАВЫЧКАМИ
+// ВСТАВЬ СЮДА СВОЙ ДЕЙСТВУЮЩИЙ API-КЛЮЧ
 const API_KEY = "AIzaSyDkt-v8aqfNWMSDoAKaW5hMj9Pw0jckP34";
 
+const KEYS = {
+  favorites:"yd_favorites_v2",
+  history:"yd_history_v2",
+  queries:"yd_queries_v2"
+};
+
+function loadData(key){
+  try{return JSON.parse(localStorage.getItem(key)) || []}
+  catch(e){return []}
+}
+
+function saveData(key,data){
+  localStorage.setItem(key,JSON.stringify(data));
+}
+
+let favorites = loadData(KEYS.favorites);
+let history = loadData(KEYS.history);
+let queries = loadData(KEYS.queries);
+let currentPage = "home";
 let currentVideo = null;
+let lastResults = [];
 
-const searchInput = document.getElementById("search");
-const statusBox = document.getElementById("status");
-const resultsBox = document.getElementById("results");
+function showPage(page){
+  closePlayer(false);
+  currentPage = page;
 
-searchInput.addEventListener("keydown", event => {
-  if(event.key === "Enter") findVideos();
-});
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(page+"Page").classList.add("active");
 
-async function findVideos() {
+  document.querySelectorAll(".nav-btn").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===page);
+  });
 
-  const query = searchInput.value.trim();
+  document.getElementById("bottomNav").style.display="flex";
 
-  if(!query) {
-    statusBox.textContent = "Введи название видео";
+  if(page==="home") renderHome();
+  if(page==="favorites") renderFavorites();
+  if(page==="history") renderHistory();
+  if(page==="settings") renderSettings();
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function searchVideos(){
+  const input=document.getElementById("searchInput");
+  const query=input.value.trim();
+  const status=document.getElementById("searchStatus");
+  const results=document.getElementById("searchResults");
+
+  if(!query){
+    status.textContent="Введи название видео";
     return;
   }
 
-  if(API_KEY.includes("ВСТАВЬ_")) {
-    statusBox.textContent = "Сначала добавь API-ключ в код";
+  if(API_KEY.includes("ВСТАВЬ_")){
+    status.textContent="Добавь API-ключ в код приложения";
     return;
   }
 
-  document.getElementById("homeScreen").style.display = "block";
-  document.getElementById("playerScreen").style.display = "none";
+  rememberQuery(query);
+  results.innerHTML="";
+  status.textContent="Ищем видео...";
 
-  resultsBox.innerHTML = "";
-  statusBox.textContent = "Поиск видео...";
+  try{
+    const url="https://www.googleapis.com/youtube/v3/search"+
+      "?part=snippet&type=video&maxResults=20"+
+      "&q="+encodeURIComponent(query)+
+      "&key="+encodeURIComponent(API_KEY);
 
-  try {
+    const response=await fetch(url);
+    const data=await response.json();
 
-    const url =
-      "https://www.googleapis.com/youtube/v3/search" +
-      "?part=snippet&type=video&maxResults=20" +
-      "&q=" + encodeURIComponent(query) +
-      "&key=" + encodeURIComponent(API_KEY);
+    if(!response.ok) throw new Error(data.error?.message||"Ошибка API");
 
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if(!response.ok) {
-      throw new Error(data.error?.message || "Ошибка API");
-    }
-
-    if(!data.items || data.items.length === 0) {
-      statusBox.textContent = "Видео не найдены";
+    if(!data.items || !data.items.length){
+      status.textContent="Видео не найдены";
       return;
     }
 
-    statusBox.textContent = "Найдено видео: " + data.items.length;
+    lastResults=data.items.map(item=>makeVideo(item));
+    status.textContent="Найдено видео: "+lastResults.length;
+    renderVideoGrid(lastResults,results);
 
-    data.items.forEach(item => {
-
-      const id = item.id.videoId;
-      const title = item.snippet.title;
-      const channel = item.snippet.channelTitle;
-
-      const thumbnail =
-        item.snippet.thumbnails.medium.url;
-
-      const card = document.createElement("article");
-      card.className = "video-card";
-
-      const img = document.createElement("img");
-      img.className = "thumbnail";
-      img.src = thumbnail;
-      img.alt = title;
-      img.loading = "lazy";
-
-      const info = document.createElement("div");
-      info.className = "video-info";
-
-      const heading = document.createElement("h3");
-      heading.className = "video-title";
-      heading.textContent = title;
-
-      const author = document.createElement("div");
-      author.className = "video-channel";
-      author.textContent = channel;
-
-      const button = document.createElement("button");
-      button.className = "play-button";
-      button.textContent = "▶ Смотреть";
-      button.onclick = () => playVideo(id,title,channel);
-
-      info.append(heading,author,button);
-      card.append(img,info);
-      resultsBox.append(card);
-
-    });
-
-  } catch(error) {
-    statusBox.textContent = "Ошибка: " + error.message;
+  }catch(error){
+    status.textContent="Ошибка: "+error.message;
   }
 }
 
-function playVideo(id,title,channel) {
+function makeVideo(item){
+  return {
+    id:item.id.videoId,
+    title:item.snippet.title,
+    channel:item.snippet.channelTitle,
+    thumbnail:item.snippet.thumbnails.medium.url
+  };
+}
 
-  currentVideo = id;
+function renderVideoGrid(videos,container){
+  container.innerHTML="";
 
-  document.getElementById("homeScreen").style.display = "none";
-  document.getElementById("playerScreen").style.display = "block";
+  if(!videos.length){
+    container.innerHTML='<div class="empty">Здесь пока ничего нет</div>';
+    return;
+  }
 
-  document.getElementById("playerTitle").textContent = title;
-  document.getElementById("playerChannel").textContent = channel;
+  videos.forEach(video=>{
+    const saved=favorites.some(v=>v.id===video.id);
+    const card=document.createElement("article");
+    card.className="card";
 
-  const frame = document.getElementById("playerFrame");
+    const img=document.createElement("img");
+    img.className="thumb";
+    img.src=video.thumbnail;
+    img.alt=video.title;
+    img.loading="lazy";
 
-  frame.innerHTML = "";
+    const info=document.createElement("div");
+    info.className="info";
 
-  const iframe = document.createElement("iframe");
+    const title=document.createElement("div");
+    title.className="video-title";
+    title.textContent=video.title;
 
-  iframe.src =
-    "https://www.youtube.com/embed/" +
-    encodeURIComponent(id) +
-    "?playsinline=1&rel=0";
+    const channel=document.createElement("div");
+    channel.className="channel";
+    channel.textContent=video.channel;
 
-  iframe.title = title;
-  iframe.allow =
-    "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+    const actions=document.createElement("div");
+    actions.className="actions";
 
-  iframe.allowFullscreen = true;
-  iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    const play=document.createElement("button");
+    play.textContent="▶ Смотреть";
+    play.onclick=()=>playVideo(video);
+
+    const heart=document.createElement("button");
+    heart.className="heart"+(saved?" saved":"");
+    heart.textContent=saved?"♥":"♡";
+    heart.title="Добавить или удалить из избранного";
+    heart.onclick=()=>toggleFavorite(video);
+
+    actions.append(play,heart);
+    info.append(title,channel,actions);
+    card.append(img,info);
+    container.append(card);
+  });
+}
+
+function toggleFavorite(video){
+  const index=favorites.findIndex(v=>v.id===video.id);
+
+  if(index>=0){
+    favorites.splice(index,1);
+  }else{
+    favorites.unshift(video);
+  }
+
+  saveData(KEYS.favorites,favorites);
+  refreshCurrentPage();
+}
+
+function playVideo(video){
+  currentVideo=video;
+
+  history=history.filter(v=>v.id!==video.id);
+  history.unshift({...video,watchedAt:new Date().toISOString()});
+  history=history.slice(0,100);
+  saveData(KEYS.history,history);
+
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("playerScreen").style.display="block";
+  document.getElementById("bottomNav").style.display="none";
+
+  document.getElementById("playerTitle").textContent=video.title;
+  document.getElementById("playerChannel").textContent=video.channel;
+
+  const frame=document.getElementById("playerFrame");
+  frame.innerHTML="";
+
+  const iframe=document.createElement("iframe");
+  iframe.src="https://www.youtube.com/embed/"+
+    encodeURIComponent(video.id)+"?playsinline=1&rel=0";
+  iframe.title=video.title;
+  iframe.allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+  iframe.allowFullscreen=true;
+  iframe.referrerPolicy="strict-origin-when-cross-origin";
 
   frame.append(iframe);
-
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function closePlayer() {
+function closePlayer(scroll=true){
+  const screen=document.getElementById("playerScreen");
+  if(!screen)return;
 
-  document.getElementById("playerFrame").innerHTML = "";
+  document.getElementById("playerFrame").innerHTML="";
+  screen.style.display="none";
+  document.getElementById("bottomNav").style.display="flex";
 
-  document.getElementById("playerScreen").style.display = "none";
-  document.getElementById("homeScreen").style.display = "block";
-
-  currentVideo = null;
-
-  window.scrollTo({top:0,behavior:"smooth"});
+  if(scroll) showPage(currentPage);
 }
+
+function rememberQuery(query){
+  queries=queries.filter(q=>q.text!==query);
+  queries.unshift({text:query,date:new Date().toISOString()});
+  queries=queries.slice(0,30);
+  saveData(KEYS.queries,queries);
+  renderSuggestions();
+}
+
+function renderSuggestions(){
+  const box=document.getElementById("searchSuggestions");
+  box.innerHTML="";
+
+  if(!queries.length)return;
+
+  const label=document.createElement("div");
+  label.className="section-title";
+  label.textContent="Недавние запросы";
+  box.append(label);
+
+  queries.slice(0,6).forEach(q=>{
+    const button=document.createElement("button");
+    button.className="small-button";
+    button.style.margin="0 6px 8px 0";
+    button.textContent="⌕ "+q.text;
+    button.onclick=()=>{
+      document.getElementById("searchInput").value=q.text;
+      searchVideos();
+    };
+    box.append(button);
+  });
+}
+
+function renderHome(){
+  document.getElementById("homeFavCount").textContent=
+    "Сохранено видео: "+favorites.length;
+
+  const box=document.getElementById("homeHistory");
+  box.innerHTML="";
+
+  if(!history.length){
+    box.innerHTML='<div class="empty">Здесь появятся недавно просмотренные видео</div>';
+    return;
+  }
+
+  renderVideoGrid(history.slice(0,4),box);
+}
+
+function renderFavorites(){
+  renderVideoGrid(favorites,document.getElementById("favoritesList"));
+}
+
+function renderHistory(){
+  const box=document.getElementById("historyList");
+  box.innerHTML="";
+
+  if(!history.length){
+    box.innerHTML='<div class="empty">История пока пустая</div>';
+  }else{
+    history.forEach(video=>{
+      const row=document.createElement("div");
+      row.className="list-item";
+
+      const img=document.createElement("img");
+      img.src=video.thumbnail;
+
+      const info=document.createElement("div");
+      info.className="list-info";
+
+      const title=document.createElement("strong");
+      title.textContent=video.title;
+
+      const date=document.createElement("small");
+      date.textContent="Просмотрено: "+new Date(video.watchedAt).toLocaleString();
+
+      const play=document.createElement("button");
+      play.className="small-button";
+      play.textContent="▶";
+      play.onclick=()=>playVideo(video);
+
+      info.append(title,date);
+      row.append(img,info,play);
+      box.append(row);
+    });
+  }
+
+  const queryBox=document.getElementById("queryHistory");
+  queryBox.innerHTML="";
+
+  if(!queries.length){
+    queryBox.innerHTML='<div class="empty">Поисковых запросов пока нет</div>';
+  }else{
+    queries.forEach(q=>{
+      const button=document.createElement("button");
+      button.className="small-button";
+      button.style.margin="0 7px 8px 0";
+      button.textContent="⌕ "+q.text;
+      button.onclick=()=>{
+        showPage("search");
+        document.getElementById("searchInput").value=q.text;
+        searchVideos();
+      };
+      queryBox.append(button);
+    });
+  }
+}
+
+function renderSettings(){
+  document.getElementById("storageInfo").textContent=
+    "Избранное: "+favorites.length+
+    " · Просмотры: "+history.length+
+    " · Запросы: "+queries.length;
+}
+
+function clearHistory(){
+  if(!confirm("Удалить всю историю просмотров?"))return;
+  history=[];
+  saveData(KEYS.history,history);
+  renderHistory();
+  renderSettings();
+  renderHome();
+}
+
+function clearQueries(){
+  if(!confirm("Удалить все поисковые запросы?"))return;
+  queries=[];
+  saveData(KEYS.queries,queries);
+  renderHistory();
+  renderSettings();
+  renderSuggestions();
+}
+
+function clearFavorites(){
+  if(!confirm("Удалить все избранные видео?"))return;
+  favorites=[];
+  saveData(KEYS.favorites,favorites);
+  renderFavorites();
+  renderSettings();
+  renderHome();
+}
+
+function refreshCurrentPage(){
+  if(currentPage==="favorites")renderFavorites();
+  if(currentPage==="home")renderHome();
+  if(currentPage==="history")renderHistory();
+  if(currentPage==="settings")renderSettings();
+  if(currentPage==="search")renderVideoGrid(lastResults,document.getElementById("searchResults"));
+}
+
+document.getElementById("searchInput").addEventListener("keydown",event=>{
+  if(event.key==="Enter")searchVideos();
+});
+
+renderHome();
+renderSuggestions();
 
 </script>
-
 </body>
 </html>
