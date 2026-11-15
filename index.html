@@ -3,82 +3,97 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101114">
 <title>YouTube Drive</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101114;color:#fff;font-family:Arial,sans-serif;padding:20px}
-header{font-size:25px;font-weight:bold;margin-bottom:8px}
-.sub{color:#999;font-size:13px;margin-bottom:24px}
-input,button{width:100%;padding:15px;border-radius:12px;border:1px solid #333;font-size:16px}
-input{background:#202127;color:white;margin-bottom:10px}
+body{margin:0;padding:20px;background:#101114;color:white;font-family:Arial,sans-serif}
+header{font-size:27px;font-weight:bold;margin-bottom:6px}
+.sub{color:#999;font-size:13px;margin-bottom:25px}
+input,button{width:100%;padding:15px;border-radius:12px;font-size:16px}
+input{background:#202127;color:white;border:1px solid #383838;margin-bottom:12px}
 button{background:#ff0033;color:white;border:0;font-weight:bold;cursor:pointer}
-.status{color:#aaa;font-size:13px;margin:15px 0}
+.status{color:#aaa;font-size:13px;margin:18px 0}
 .video{background:#202127;border-radius:14px;padding:12px;margin:12px 0}
 .video img{width:100%;border-radius:9px}
-.video h3{font-size:15px;margin:10px 0}
+.video h3{font-size:15px}
 .video p{font-size:12px;color:#aaa}
-#player{margin-top:20px}
 iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
+#player{margin-top:20px}
 </style>
 </head>
 <body>
+
 <header>▶ YouTube Drive</header>
 <div class="sub">Your personal video player</div>
 
-<input id="key" type="password" placeholder="YouTube API key">
 <input id="search" type="search" placeholder="Найти видео...">
 <button onclick="findVideos()">Найти видео</button>
 
-<div class="status" id="status">Введи API key и название видео</div>
+<div class="status" id="status">Готов к поиску</div>
 <div id="results"></div>
 <div id="player"></div>
 
 <script>
+// ВСТАВЬ СЮДА СВОЙ API-КЛЮЧ МЕЖДУ КАВЫЧКАМИ
+const API_KEY = "AIzaSyDkt-v8aqfNWMSDoAKaW5hMj9Pw0jckP34";
+
 async function findVideos(){
- const key=document.getElementById('key').value.trim();
  const query=document.getElementById('search').value.trim();
  const status=document.getElementById('status');
  const results=document.getElementById('results');
+
  document.getElementById('player').innerHTML='';
- if(!key||!query){status.textContent='Введи API key и поисковый запрос';return;}
- status.textContent='Ищем видео...';
  results.innerHTML='';
+
+ if(!query){status.textContent='Введи название видео';return;}
+
+ status.textContent='Ищем видео...';
+
  try{
-  const url='https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=15&q='+encodeURIComponent(query)+'&key='+encodeURIComponent(key);
+  const url='https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=15&q='+encodeURIComponent(query)+'&key='+encodeURIComponent(API_KEY);
   const response=await fetch(url);
   const data=await response.json();
+
   if(!response.ok) throw new Error(data.error?.message||'Ошибка API');
   if(!data.items?.length){status.textContent='Видео не найдены';return;}
+
   status.textContent='Найдено видео: '+data.items.length;
+
   data.items.forEach(item=>{
    const id=item.id.videoId;
-   const title=item.snippet.title;
-   const channel=item.snippet.channelTitle;
    const card=document.createElement('div');
    card.className='video';
+
    const img=document.createElement('img');
    img.src=item.snippet.thumbnails.medium.url;
-   const heading=document.createElement('h3');
-   heading.textContent=title;
-   const author=document.createElement('p');
-   author.textContent=channel;
+
+   const title=document.createElement('h3');
+   title.textContent=item.snippet.title;
+
+   const channel=document.createElement('p');
+   channel.textContent=item.snippet.channelTitle;
+
    const play=document.createElement('button');
    play.textContent='Открыть видео';
    play.onclick=()=>playVideo(id);
-   card.append(img,heading,author,play);
+
+   card.append(img,title,channel,play);
    results.append(card);
   });
+
  }catch(error){
   status.textContent='Ошибка: '+error.message;
  }
 }
+
 function playVideo(id){
  document.getElementById('player').innerHTML=
  '<iframe src="https://www.youtube.com/embed/'+encodeURIComponent(id)+'" allowfullscreen allow="accelerometer; autoplay; encrypted-media; picture-in-picture"></iframe>';
  document.getElementById('player').scrollIntoView({behavior:'smooth'});
 }
 </script>
+
 </body>
 </html>
